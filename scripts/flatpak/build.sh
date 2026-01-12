@@ -10,6 +10,18 @@ SCRIPT_DIR="$( cd "$( dirname $0 )" && pwd )"
 BUILD_DIR_FLATPAK="$BUILD_DIR/flatpak"
 mkdir -p "$BUILD_DIR_FLATPAK"
 
+# System reqs
+
+if ! command -v flatpak; then
+    sudo apt install -y flatpak
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
+
+flatpak install --system -y flathub org.kde.Platform//5.15-24.08
+flatpak install --system -y flathub org.kde.Sdk//5.15-24.08
+flatpak install --system -y flathub com.riverbankcomputing.PyQt.BaseApp//5.15-24.08
+flatpak install --system -y flathub org.flatpak.Builder
+
 # Preparation
 
 cp "$DIST_DIR"/*.tar.gz "$BUILD_DIR_FLATPAK"
